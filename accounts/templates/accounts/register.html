@@ -1,0 +1,47 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% block title %}ورود کاربران{% endblock %}
+{% block slider %}{% endblock %}
+
+{% block main_content %}
+<div class="text-center my-login shadow-lg p-3 mb-5 bg-white rounded">
+    <form class="form-signin" action="#" method="post">
+        {% csrf_token %}
+        {% if reg_form.errors %}
+            <div class="alert alert-danger">
+            <ul>
+            {% for  error in reg_form.errors %}
+                    <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
+        <img class="mb-4" src="{% static 'accounts/images/login.png' %}" alt="" width="85" height="85">
+        <h1 class="h3 mb-3 font-weight-normal">لطفا وارد شوید</h1>
+        <label for="id_username" class="sr-only">نام کاربری</label>
+            <input type="text" id="id_username" class="form-control"
+                   placeholder="نام کاربری" required autofocus value="{{ username }}" name="username">
+
+        <label for="id_email" class="sr-only">ایمیل</label>
+            <input type="email" id="id_email" class="form-control"
+                   placeholder="ایمیل" required autofocus value="{{ username }}" name="email">
+
+        <label for="id_password1" class="sr-only">گذرواژه</label>
+            <input type="password" id="id_password1" class="form-control"
+                   placeholder="گذر واژه" required name="password1">
+         <label for="id_password2" class="sr-only">تایید گذرواژه</label>
+            <input type="password" id="id_password2" class="form-control"
+                   placeholder="تایید گذر واژه" required name="password2">
+        <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> مرا به یاد داشته باش
+        </label>
+        </div>
+            <div style="margin-bottom: 10px"><a href="{% url 'accounts:login' %}"
+                    style="text-decoration: none; color: #bd2130">
+                اگر حساب کاربری دارید وارد شوید</a></div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">ثبت نام</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 1399 </p>
+    </form>
+</div>
+{% endblock %}

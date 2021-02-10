@@ -1,0 +1,92 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}ویرایش رویداد{% endblock %}
+{% block slider %}{% endblock %}
+{% block main_content %}
+    <div class="container container-fluid">
+        <div class="row mb-2">
+{#            <form action="#" method="post" enctype="multipart/form-data">#}
+{#                {% csrf_token %}#}
+{#                {{ edit_event }}#}
+{#            </form>#}
+            <!-- right side-->
+            <div class="col col-md-8 themed-grid-col" style="float: none;margin: auto">
+                <h6>رویداد را میتوانید کنسل یا ویرایش  کنید</h6>
+                <hr>
+                <form action="#" class="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-1">
+                        <small>عنوان رویداد:</small>
+                        <p>{{ event.title }}</p>
+                        <br>
+                        {{ edit_event.title|attr:"class:form-control"|attr:"type:text"}}
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <small>تاریخ و ساعت شروع:</small>
+                            <small>2020-07-01 12:00:00</small>
+                            {{ edit_event.start_date|attr:"class:form-control"|attr:"type:text"}}
+                        </div>
+                        <div class="col-md-6">
+                            <small>تاریخ و ساعت پایان:</small>
+                            <small>2020-07-02 12:00:00</small>
+                            {{ edit_event.end_date|attr:"class:form-control"|attr:"type:text"}}
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <small>در مورد رویداد:</small>
+                        {{ edit_event.details|attr:"class:form-control" }}
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col col-md-6">
+                            <small>جستجو در موضوع:</small>
+                        {{ edit_event.subject|attr:"class:form-control" }}
+                        </div>
+                        <div class="col col-md-6">
+                            <small>برچسب ها:</small>
+                            {{ edit_event.tags|attr:"class:form-control"|attr:"tepe:text" }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col col-md-6 ">
+                            <small>پوستر:</small>
+                            <br>
+                            {{ edit_event.poster|attr:"class:form-control" }}
+                        </div>
+                        <div class="col col-md-6 ">
+                            <small>آیا میخواهید رویداد را کنسل کنید؟</small>
+                            {{ edit_event.cancel|attr:"class:form-control" }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="text-center col-md-12" style="margin-top: 30px">
+                            <button type="submit" class="btn btn-success" style="min-width: 40%">ثبت</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col col-md-4 themed-grid-col">
+                <h6>لیست ثبت نامی ها</h6>
+                    <hr>
+                <div class="col-md-12">
+
+                    {% if subscribed %}
+                        {% for foo in subscribed %}
+                            <div class="col-md-12 ">
+                                <dl class="alert alert-light">
+                                    <dt>نام:</dt>
+                                    <dd>{{ foo.submitted_user.user.get_full_name }}</dd>
+                                    <dt>زمان ثبت نام:</dt>
+                                    <dd>{{ foo.submit_time|date:"l n/j ساعت H:i"}}</dd>
+                                </dl>
+                            </div>
+                        {% endfor %}
+                        {% else %}
+                            <p class="text-center">برای این رویداد ثبت نام شده ایی وجود ندارد</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% block title %}رویدادهای من{% endblock %}
+{% block slider %}{% endblock %}
+{% block main_content %}
+    <div class="container container-fluid">
+        <div class="row mb-2">
+            <!-- part right -->
+            <div class="col-md-6 themed-grid-col">
+                <div class="row mb-2">
+                    <div class="col col-md-6"><h6>رویدادهای ثبت نام شده</h6></div>
+                    <div class="col col-md-6">
+                        {% if i_submitted %}
+                            <h6>تعداد : {{ i_submitted.count }}</h6>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% for event in i_submitted %}
+                    <div class="row mb-2">
+                        <div class="col col-md-4 col-lg-4 col-sm-4 col-xl-4 col-4" style="float: right">
+                            <a href="{% url "eventing:event_details" event_id=event.submitted_event.id %}">
+                                <img src="{{ event.submitted_event.poster.url }}"
+                                     alt="poster" style="max-width: 100%;max-height: 100%">
+                            </a>
+                            <div class="text-center" style="float: none; margin: 5px auto auto auto;">
+                                <a href="{% url "accounts:event_submitted" event_id=event.submitted_event.id%}"
+                                   class="btn btn-danger" style="min-width: 80%">مشاهده ثبت نام</a>
+                            </div>
+                        </div>
+                        <div class="col col-md-8" style="float: left">
+                            <div>
+                                <a href="{% url "eventing:event_details" event_id=event.submitted_event.id %}"
+                                    style="text-decoration: none">
+                                <h6>{{ event.submitted_event.title }}</h6>
+                                </a>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col col-md-6" style="border-left: 2px solid #ffffff">
+                                    <dl>
+                                        <dt>شروع:</dt>
+                                        <dd>{{ event.submitted_event.start_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>زمان ثبت نام:</dt>
+                                        <dd>{{ event.submitted_event.made_time|date:"l n/j ساعت H:i" }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col col-md-6">
+                                    <dl>
+                                        <dt>پایان:</dt>
+                                        <dd>{{ event.submitted_event.end_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>وضعیت رویداد:</dt>
+                                        <dd>{{ event.submitted_event.get_situation_display}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- part left -->
+            <div class="col-md-6 themed-grid-col">
+                <div class="row mb-2">
+                    <div class="col col-md-6"><h6>رویدادهای ایجاد شده</h6></div>
+                    <div class="col col-md-6">
+                        {% if i_added %}
+                            <h6>تعداد : {{ i_added.count }}</h6>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% for event in i_added %}
+                    <div class="row mb-2">
+                        <div class="col col-md-4 col-lg-4 col-sm-4 col-xl-4 col-4" style="float: right">
+                            <a href="{% url "eventing:event_details" event_id=event.id %}">
+                                <img src="{{ event.poster.url }}"
+                                     alt="poster" style="max-width: 100%;max-height: 100%">
+                            </a>
+                            <div class="text-center" style="float: none; margin: 5px auto auto auto;">
+                                <a href="{% url "accounts:edit_own_event" event_id=event.id%}"
+                                   class="btn btn-danger" style="min-width: 80%">مشاهده</a>
+                            </div>
+                        </div>
+                        <div class="col col-md-8" style="float: left">
+                            <div>
+                                <a href="{% url "eventing:event_details" event_id=event.id %}"
+                                    style="text-decoration: none">
+                                <h6>{{ event.title }}</h6>
+                                </a>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col col-md-6" style="border-left: 2px solid #ffffff">
+                                    <dl>
+                                        <dt>شروع:</dt>
+                                        <dd>{{ event.start_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>زمان ایجاد:</dt>
+                                        <dd>{{ event.made_time|date:"l n/j ساعت H:i" }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col col-md-6">
+                                    <dl>
+                                        <dt>پایان:</dt>
+                                        <dd>{{ event.end_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>وضعیت رویداد:</dt>
+                                        <dd>{{ event.get_situation_display}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

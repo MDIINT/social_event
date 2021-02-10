@@ -1,0 +1,98 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}تایید رویداد{% endblock %}
+{% block slider %}{% endblock %}
+{% block main_content %}
+    <div class="container container-fluid">
+        <div class="row mb-2">
+            <div class="col col-md-8 themed-grid-col" style="float: none;margin: auto">
+                <h6>رویداد را میتوانید تایید ، کنسل یا ویرایش  کنید</h6>
+                <hr>
+                <dl class="event_detail">
+                    <dt>تاریخ ایجاد:</dt>
+                    <dd>{{ event.made_time|date:"l n/j ساعت H:i" }}</dd>
+                </dl>
+                <form action="#" class="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-1">
+                        <small>عنوان رویداد:</small>
+                        <br>
+                        {{ v_event.title|attr:"class:form-control"|attr:"type:text"}}
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <small>تاریخ و ساعت شروع:</small>
+                            <small>2020-07-01 12:00:00</small>
+                            {{ v_event.start_date|attr:"class:form-control"|attr:"type:text"}}
+                        </div>
+                        <div class="col-md-6">
+                            <small>تاریخ و ساعت پایان:</small>
+                            <small>2020-07-02 12:00:00</small>
+                            {{ v_event.end_date|attr:"class:form-control"|attr:"type:text"}}
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <small>در مورد رویداد:</small>
+                        {{ v_event.details|attr:"class:form-control" }}
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col col-md-6">
+                            <small>جستجو در موضوع:</small>
+                        {{ v_event.subject|attr:"class:form-control" }}
+                        </div>
+                        <div class="col col-md-6">
+                            <small>برچسب ها:</small>
+                            {{ v_event.tags|attr:"class:form-control"|attr:"tepe:text" }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col col-md-6 ">
+                            <small>پوستر:</small>
+                            <br>
+                            {{ v_event.poster|attr:"class:form-control" }}
+                        </div>
+                        <div class="col col-md-6 ">
+                            <small>آیا میخواهید رویداد را کنسل کنید؟</small>
+                            {{ v_event.cancel|attr:"class:form-control" }}
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <div class="row mb-1">
+                        <div class="col col-md-12">
+                            <h6>آیا این رویداد را برای انتشار تایید می کنید؟</h6>
+                            {{ v_event.verify|attr:"class:form-control" }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="text-center col-md-12" style="margin-top: 30px">
+                            <button type="submit" class="btn btn-success" style="min-width: 40%">ثبت</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col col-md-4 themed-grid-col">
+                <h6>مشخصات ایجاد کننده</h6>
+                    <hr>
+                <div class="col-md-12">
+                    <dl class="event_detail">
+                        <dt>کاربر:</dt>
+                        <dd>{{ organizer.user.username }}</dd>
+                        <dt>نام:</dt>
+                        <dd>{{ organizer.user.get_full_name }}</dd>
+                        <dt>نوع کاربر:</dt>
+                        <dd>{{ organizer.user.profile.user_type }}</dd>
+                        <dt>نام رسمی:</dt>
+                        <dd>{{ organizer.user.profile.organ_name }}</dd>
+                        <dt>:id</dt>
+                        <dd>{{ organizer.user.profile.id }}</dd>
+                        <dt>تاریخ عضویت:</dt>
+                        <dd>{{ organizer.user.date_joined|date:"l n/j ساعت H:i" }}</dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

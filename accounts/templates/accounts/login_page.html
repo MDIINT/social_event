@@ -1,0 +1,32 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% block title %}ورود کاربران{% endblock %}
+{% block slider %}{% endblock %}
+
+{% block main_content %}
+<div class="text-center my-login shadow-lg p-3 mb-5 bg-white rounded">
+    <form class="form-signin" action="#" method="post">
+        {% csrf_token %}
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <img class="mb-4" src="{% static 'accounts/images/login.png' %}" alt="" width="85" height="85">
+        <h1 class="h3 mb-3 font-weight-normal">لطفا وارد شوید</h1>
+        <label for="inputUsername" class="sr-only">نام کاربری</label>
+            <input type="text" id="inputUsername" class="form-control"
+                   placeholder="نام کاربری" required autofocus value="{{ username }}" name="username">
+        <label for="inputPassword" class="sr-only">رمزعبور</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="رمزعبور" required name="password">
+        <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> مرا به یاد داشته باش
+        </label>
+        </div>
+            <div style="margin-bottom: 10px"><a href="{% url 'accounts:register_user' %}"
+                    style="text-decoration: none; color: #bd2130">
+                اگر حساب کاربری ندارید ابتدا عضو شوید</a></div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">ورود</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 1399 </p>
+    </form>
+</div>
+{% endblock %}

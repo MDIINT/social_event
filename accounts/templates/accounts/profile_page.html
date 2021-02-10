@@ -1,0 +1,138 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% block title %}نمایه کاربری{% endblock %}
+{% block slider %}{% endblock %}
+{% block main_content %}
+<div class="container container-fluid">
+    {% if error %}
+        <div class="alert alert-danger"><h4 class="text-center">{{ error }}</h4></div>
+    {% endif %}
+{#{{ profile_filed }}#}
+    <div class="row mb-2">
+        <!-- part right-->
+        <div class=" col-md-4">
+            <!-- Sidebar -->
+            <div class="col-md-10" style="overflow: hidden">
+            <div class="bg-light border-right my-right-side" id="sidebar-wrapper">
+              <div class="sidebar-heading">امکانات و فعالیت ها</div>
+              <div class="list-group list-group-flush">
+                  {% if user.is_staff %}
+                <a href="{% url 'accounts:admin_panel' %}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>پنل مدیریت</a>
+                  {% endif %}
+                <a href="{% url 'accounts:my_event' %}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-certificate my-icon" aria-hidden="true"></i>رویداد های من</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-history my-icon" aria-hidden="true"></i>تاریخچه رویداد ها</a>
+                <a href="{% url 'accounts:add_new' %}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-plus my-icon" aria-hidden="true"></i>ایجاد یک رویداد</a>
+                <a href="{% url 'accounts:admin_panel' %}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-bell my-icon" aria-hidden="true"></i>اعلان ها</a>
+                <a href="{% url 'accounts:change_password' %}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-key my-icon" aria-hidden="true"></i>تغیر رمز عبور</a>
+              </div>
+            </div>
+            </div>
+            <!-- /#sidebar-wrapper -->
+        </div>
+        <!-- end part right-->
+        <!-- part left-->
+        <div class="col-md-8 themed-grid-col">
+            <h6>مشخصات فردی</h6>
+            <p>دراین قسمت می توانید مشخصات فردی خود‌را مشاهده و ویرایش کنید</p>
+            <hr style="border-radius: 50%">
+                <form action="#" class="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <div class="col col-md-8">
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <label for="id_first_name">نام:</label>
+                                        <input type="text" id="id_first_name" name="first_name"
+                                               class="form-control" value="{{ user.first_name }}">
+                                </div>
+                            <div class="col-md-6">
+                                <label for="id_last_name">نام خانوادگی:</label>
+                                    <input type="text" id="id_last_name" name="last_name"
+                                           class="form-control" value="{{ user.last_name }}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                             <label for="id_address">آدرس:</label>
+                                <input type="text" id="id_address" name="address" class="form-control" value="{{ user.profile.address }}">
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="id_birth_date">تاریخ تولد:</label>
+                                    <input type="text" id="id_birth_date" name="birth_date" class="form-control"
+                                        value="{{ user.profile.birth_date|date:"yy-m-d" }}"
+                                           onfocus="this.type='date'" onblur="(this.type='text')">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_user_type">نوع کاربری:</label>
+                                <select id="id_user_type" name="user_type" class="form-control">
+                                    <option value="" selected>مشخص نشده</option>
+                                    <option value="1" {% if profile.user_type == 1 %}selected{% endif %}>حقیقی</option>
+                                    <option value="2" {% if profile.user_type == 2 %}selected{% endif %}>حقوقی</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_organ_name">نام رسمی یا نام سازمان:</label>
+                                <input type="text" id="id_organ_name" name="organ_name" class="form-control"
+                                value="{{ user.profile.organ_name }}">
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="id_email">ایمیل:</label>
+                                    <input type="email" id="id_email" name="email" class="form-control"
+                                    value="{{ user.email }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_mobile">موبایل:</label>
+                                    <input type="tel" id="id_mobile" name="mobile" class="form-control"
+                                    value="{{ user.profile.mobile }}">
+                            </div>
+                        </div>
+                        </div>
+                        <!--left side profile image-->
+                    <div class="col col-md-4 ">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="card" style="padding: 10px">
+                                    <img class="card-img-top" src="{% if profile.profile_image %}
+                                        {{ profile.profile_image.url }}
+                                      {% else %}
+                                      {% static 'accounts/images/profile.png' %}
+                                      {% endif %}" alt="user_profile">
+                                    <div class="card-body">
+                                        <p class="card-title" style="text-align: center">تصویر نمایه کاربری</p>
+                                        <div class="row mb-2">
+                                            <div class="col text-center">
+                                                <label for="id_profile_image" class=""><i class="fa fa-pencil-alt" aria-hidden="true"></i></label>
+                                                    <input id="id_profile_image" style="border: solid 1px #70767c"
+                                                           class="form-control text-hide profile_image_edit_button" type="file" name="profile_image" accept="image/*" >
+                                            </div>
+                                            <div class="col text-center">
+                                                <label for="profile_image-clear_id" class=""><i class="fa fa-times" aria-hidden="true"></i></label>
+                                                    <input id="profile_image-clear_id"
+                                                           class="form-control profile_image_edit_button" type="checkbox" name="profile_image-clear" accept="image/*" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <hr>
+                        <div class="col-md-4" style="float: none; margin:30px auto auto auto;">
+                            <button type="submit" class="btn btn-success">ثبت تغییرات</button>
+                        </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}ایجاد یک رویداد{% endblock %}
+{% block slider %}{% endblock %}
+{% block main_content %}
+    <div class="container container-fluid">
+        <div class="row mb-1">
+            <!-- part right -->
+            <div class="col col-md-10 themed-grid-col" style="float: none;margin: auto">
+                <h6>مشخصات رویداد</h6>
+                <hr>
+                <form action="#" class="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-1">
+                        <small>عنوان رویداد:</small>
+                        <br>
+                        {{ new_event.title|attr:"class:form-control"|attr:"type:text" }}
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <small>تاریخ و ساعت شروع:</small>
+                            <small>2020-07-01 12:00:00</small>
+                            {{ new_event.start_date|attr:"class:form-control"|attr:"type:text"}}
+                        </div>
+                        <div class="col-md-6">
+                            <small>تاریخ و ساعت پایان:</small>
+                            <small>2020-07-02 12:00:00</small>
+                            {{ new_event.end_date|attr:"class:form-control"|attr:"type:text"}}
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <small>در مورد رویداد:</small>
+                        {{ new_event.details|attr:"class:form-control" }}
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col col-md-6">
+                            <small>جستجو در موضوع:</small>
+                        {{ new_event.subject|attr:"class:form-control" }}
+                        </div>
+                        <div class="col col-md-6">
+                            <small>برچسب ها:</small>
+                            {{ new_event.tags|attr:"class:form-control"|attr:"tepe:text" }}
+                        </div>
+                    </div>
+                    <div class=" mb-2">
+                        <div class="col col-md-6 custom-file">
+                            <small>پوستر:</small>
+                            {{ new_event.poster|attr:"class:form-control" }}
+                        </div>
+                    </div>
+                    <div class="text-center" style="margin-top: 30px">
+                        <button type="submit" class="btn btn-success" style="min-width: 40%">ثبت</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

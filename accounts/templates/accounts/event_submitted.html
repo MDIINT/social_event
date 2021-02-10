@@ -1,0 +1,45 @@
+{% extends "eventing/base_page.html" %}
+{% load static %}
+{% block title %}{{ event.title }}{% endblock %}
+{% block slider %}{% endblock %}
+
+{% block main_content %}
+<div class="container container-fluid">
+    <div class="row mb-2 main-details">
+        <div class="col-md-8">
+            <div class="event-poster-details">
+                <img src="{{ event.poster.url }}" style="width: 100%;height: 100%">
+            </div>
+            <div class="detail-content"></div>
+        </div>
+        <div class="col-md-4">
+            <div style="padding: 10px 0 20px 0">
+                <h5 style="color: #007bff"><strong>{{ event.title }}</strong></h5>
+                <dl class="event_detail">
+                    <dt>موضوع:</dt>
+                    <dd>{{ event.get_subject_display }}</dd>
+                    <dt>برگزار کننده:</dt>
+                    <dd>{{ event.organizer }}</dd>
+                    <dt>شروع:</dt>
+                    <dd>{{ event.start_date|date:"l n/j ساعت H:i" }}</dd>
+                    <dt>پایان:</dt>
+                    <dd>{{ event.end_date|date:"l n/j ساعت H:i" }}</dd>
+                    <dt>وضعیت رویداد:</dt>
+                    <dd>{{ event.get_situation_display }}</dd>
+                </dl>
+                <div class="text-center">
+                    <form action="#" method="post">
+                        {% csrf_token %}
+                        <button name="submit_action" type="submit" class="btn btn-danger">لغو ثبت نام</button>
+                    </form>
+                    {% if error %}
+                        <span class="alert alert-danger" style="padding: 10px">
+                            {{ error }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

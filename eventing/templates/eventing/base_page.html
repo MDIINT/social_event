@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'eventing/images/logo.png' %}" type="image/gif" sizes="16x16">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css"
+          integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static "eventing/css/font-awesome.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "eventing/css/main.css" %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body dir="rtl">
+<!--navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <a class="navbar-brand" href="{% url 'eventing:home_loader' %}">
+      <img src="{% static 'eventing/images/logo.png' %}" alt="logo" style="height: 45px"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'eventing:event_list' %}">رویدادها
+            <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">درباره‌ما</a>
+      </li>
+
+    <!--user buttons-->
+      {% block user_button %}
+          {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user" style="margin-left: 5px"></i>{{ user.get_full_name }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+                    {% if user.is_staff %}
+                    <a class="dropdown-item" href="{% url 'accounts:admin_panel' %}">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                        پنل مدیریت
+                    </a>
+                    {% endif %}
+                  <a class="dropdown-item" href="{%url "accounts:profile"%}">
+                      <i class="far fa-address-card"></i>
+                      نمایه‌کاربری
+                  </a>
+                  <a class="dropdown-item" href="{% url 'accounts:my_event' %}">
+                      <i class="fas fa-ticket-alt"></i>
+                      رویدادهای من
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{%url "accounts:logout" %}">
+                      <i class="fas fa-sign-out-alt"></i>
+                      خروج
+                  </a>
+                </div>
+              </li>
+              {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        واردشوید
+                        <span class="sr-only">(current)</span></a>
+                </li>
+          {% endif %}
+      {% endblock %}
+
+      <!--<li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>-->
+    </ul>
+    <form method="get" action="{% url 'eventing:event_list' %}" class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search"
+             placeholder="رویدادی را بگرد..." aria-label="Search">
+      <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+    </form>
+  </div>
+</nav>
+<!--end navbar-->
+<!--slider-->
+{% block slider %}
+<div id="demo" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+  </ul>
+
+  <!-- The slideshow -->
+  <div class="carousel-inner my-slider">
+    <div class="carousel-item active">
+      <img src="{% static 'eventing/images/slide1.jpg' %}" style="width: 100%;"
+           alt="machine learning">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'eventing/images/slide2.jpeg' %}" style="width: 100%;"
+           alt="deep learning">
+    </div>
+      <div class="carousel-item">
+      <img src="{% static 'eventing/images/slide3.jpg' %}" style="width: 100%;"
+           alt="deep learning">
+    </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+{% endblock %}
+<!--end slider-->
+
+<div class="container-fluid">
+    <div id="my-content">
+        <h2 style="text-align: center;color: #bd2130" class="alert alert-warning">به پروژه من خوش آمدید :)))</h2>
+
+<!-----main block----->
+{% block main_content %}
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">رویداد</h2>
+          <p class="lead">در اجتماع مجازی فعال باشید</p>
+        </div>
+        <div class="bg-light shadow-sm mx-auto"
+             style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">وبینار</h2>
+          <p class="lead">با دیگران گفتگو کنید</p>
+        </div>
+        <div class="bg-dark shadow-sm mx-auto"
+             style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">آموزش</h2>
+          <p class="lead">از دانسته های دیگران بهره ببرید</p>
+        </div>
+        <div class="bg-dark shadow-sm mx-auto"
+             style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">بسازید</h2>
+          <p class="lead">دانسته های خود را با دیگران به اشتراک بگزاید</p>
+        </div>
+        <div class="bg-light shadow-sm mx-auto"
+             style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+
+{% endblock %}
+<!----end main block---->
+    </div>
+    <!--footer-->
+    <footer class="row align-content-center" id="my-footer">
+        <div class="col text-center">
+            <h6 style="color: yellow;margin: 10px;text-align: center">ما را در شبکه های اجتماعی دنبال کنید ;)</h6>
+            <span>
+                <a class="social-media-icon" href="https://facebook.com/">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a class="social-media-icon" href="https://instagram.com/">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a class="social-media-icon" href="https://telegram.org/">
+                    <i class="fab fa-telegram-plane"></i>
+                </a>
+            </span>
+            <p style="color: #ffffff;text-align: right;margin-bottom: 2px!important;font-size: 12px">پروژه تحلیل طراحی دانشگاه شهید چمران 1399-1398 &copy;</p>
+        </div>
+    </footer>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js"
+        integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k"
+        crossorigin="anonymous"></script>
+<script src="{% static "eventing/js/font-awesome.js" %}"></script>
+<script src="{% static "eventing/js/main.js" %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

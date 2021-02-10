@@ -1,0 +1,116 @@
+{% extends "accounts/base_account.html" %}
+{% load static %}
+{% block title %}رویدادهای من{% endblock %}
+{% block slider %}{% endblock %}
+{% block main_content %}
+    <div class="container container-fluid">
+        <div class="row mb-2">
+            <!-- part right -->
+            <div class="col-md-6 themed-grid-col">
+                <div class="row mb-2">
+                    <div class="col col-md-6"><h6>رویدادهای در انتظار تایید</h6></div>
+                    <div class="col col-md-6">
+                        {% if not_verified %}
+                            <h6>تعداد : {{ not_verified.count }}</h6>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% for event in not_verified %}
+                    <div class="row mb-2">
+                        <div class="col col-md-4 col-lg-4 col-sm-4 col-xl-4 col-4" style="float: right">
+                            <a href="{% url "eventing:event_details" event_id=event.id %}">
+                                <img src="{{ event.poster.url }}"
+                                     alt="poster" style="max-width: 100%;max-height: 100%">
+                            </a>
+                            <div class="text-center" style="float: none; margin: 5px auto auto auto;">
+                                <a href="{% url "accounts:verify_event" event_id=event.id%}"
+                                   class="btn btn-danger" style="min-width: 80%">جزئیات رویداد</a>
+                            </div>
+                        </div>
+                        <div class="col col-md-8" style="float: left">
+                            <div>
+                                <a href="{% url "eventing:event_details" event_id=event.id %}"
+                                    style="text-decoration: none">
+                                <h6>{{ event.title }}</h6>
+                                </a>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col col-md-6" style="border-left: 2px solid #ffffff">
+                                    <dl>
+                                        <dt>شروع:</dt>
+                                        <dd>{{ event.start_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>زمان ایجاد:</dt>
+                                        <dd>{{ event.made_time|date:"l n/j ساعت H:i" }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col col-md-6">
+                                    <dl>
+                                        <dt>پایان:</dt>
+                                        <dd>{{ event.end_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>کاربر ایجاد کننده:</dt>
+                                        <dd>{{ event.organizer.user.username }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- part left -->
+            <div class="col-md-6 themed-grid-col">
+                <div class="row mb-2">
+                    <div class="col col-md-6"><h6>رویداد های تایید شده</h6></div>
+                    <div class="col col-md-6">
+                        {% if verified %}
+                            <h6>تعداد : {{ verified.count }}</h6>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% for event in verified %}
+                    <div class="row mb-2">
+                        <div class="col col-md-4 col-lg-4 col-sm-4 col-xl-4 col-4" style="float: right">
+                            <a href="{% url "eventing:event_details" event_id=event.id %}">
+                                <img src="{{ event.poster.url }}"
+                                     alt="poster" style="max-width: 100%;max-height: 100%">
+                            </a>
+                            <div class="text-center" style="float: none; margin: 5px auto auto auto;">
+                                <a href="{% url "accounts:verify_event" event_id=event.id%}"
+                                   class="btn btn-danger" style="min-width: 80%">جزئیات رویداد</a>
+                            </div>
+                        </div>
+                        <div class="col col-md-8" style="float: left">
+                            <div>
+                                <a href="{% url "eventing:event_details" event_id=event.id %}"
+                                    style="text-decoration: none">
+                                <h6>{{ event.title }}</h6>
+                                </a>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col col-md-6" style="border-left: 2px solid #ffffff">
+                                    <dl>
+                                        <dt>شروع:</dt>
+                                        <dd>{{ event.start_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>زمان ایجاد:</dt>
+                                        <dd>{{ event.made_time|date:"l n/j ساعت H:i" }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col col-md-6">
+                                    <dl>
+                                        <dt>پایان:</dt>
+                                        <dd>{{ event.end_date|date:"l n/j ساعت H:i" }}</dd>
+                                        <dt>کاربر ایجاد کننده:</dt>
+                                        <dd>{{ event.organizer.user.username }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

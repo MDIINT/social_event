@@ -1,0 +1,101 @@
+{% extends "eventing/base_page.html" %}
+{% load static %}
+
+{% block title %}
+    ایونت ها
+{% endblock %}
+
+<!--main content block-->
+{% block main_content %}
+<div class="container container-fluid">
+    <div class="row mb-1">
+        <div class="col-md-12" style="float: none;margin: auto;background-color: #f5f5f5 ;">
+            <form action="#" method="get">
+                <div class="row mb-4" style="padding: 20px">
+                    <div class="col-md-3">
+                        <label for="{{ search_form.event_title.id_for_label }}">جستجو در نام:</label>
+                            <input type="text" id="{{ search_form.event_title.id_for_label }}"
+                                   class="form-control" name="{{ search_form.event_title.html_name }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="{{ search_form.event_subject.id_for_label }}">جستجو در موضوع:</label>
+                        <select id="{{ search_form.event_subject.id_for_label }}" class="form-control"
+                                name="{{ search_form.event_subject.html_name }}">
+                        <option value="" selected>---</option>
+                        {% for key,value in search_form.subject_choices %}
+                            <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                <div class="col-md-3">
+                    <label for="{{ search_form.event_NOT_START.id_for_label }}"> فقط ایونت های آغاز نشده:</label>
+                    <input type="checkbox" id="{{ search_form.event_NOT_START.id_for_label }}"
+                           name="{{ search_form.event_NOT_START.html_name }}" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label></label>
+                    <button type="submit" class="btn btn-success form-control">جستجو</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <div class="row">
+
+        <div class="col py-3">
+            {% if events %}
+                <div class="row px-2">
+                    <div class="col">
+                        <div class="alert alert-info mt-2 mb-0 py-1 px-3"
+                             style="border-radius: 30px; background-color: #d3d9df">
+                            {{ events.count }}
+                            رویداد یافت شد :)
+                        </div>
+                    </div>
+                </div>
+                <div class="row px-2">
+                    {% for event in events %}
+                        <div class="col-md-3 col-lg-3 col-8 col-sm-6 col-xl-3 px-3 py-2 event-section">
+                            <div class="col-md-12 " style="margin-top: 50px;">
+                                <div class="shadow p-3 mb-5 bg-white rounded boxed-event">
+                                    <a href="{% url "eventing:event_details" event_id=event.id %}">
+                                        {% if event.poster %}
+                                            <img src="{{ event.poster.url }}" class="col-md-12 event-poster" alt="Poster">
+                                            {% else %}
+                                            <img src="{% static 'eventing/images/slide3.jpg' %}"
+                                                 class="col-md-12 event-poster" alt="Poster">
+                                        {% endif %}
+                                    </a>
+                                    <div class="col-md-12 event-content">
+                                        <a href="{% url "eventing:event_details" event_id=event.id %}"
+                                           style="text-decoration: none;">
+                                            <p style="height: 35px"><b>{{ event.title }}</b></p>
+                                        </a>
+                                        <dl class="event_detail">
+                                            <dt>شروع:</dt>
+                                            <dd>{{ event.start_date|date:"l n/j ساعت H:i" }}</dd>
+                                            <dt>پایان:</dt>
+                                            <dd>{{ event.end_date|date:"l n/j ساعت H:i" }}</dd>
+                                            <dt>برگزار کننده:</dt>
+                                            <dd>{{ event.organizer.organ_name }}</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="row px-2">
+                    <div class="col">
+                        <div class="alert alert-info mt-2 mb-0 py-1 px-3"
+                             style="border-radius: 30px; background-color: #d3d9df">
+                            هیچ رویدادی یافت نشد :(
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
